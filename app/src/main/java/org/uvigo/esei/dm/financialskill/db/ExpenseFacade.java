@@ -13,7 +13,7 @@ public class ExpenseFacade {private DBManager dbManager;
         this.dbManager = dbManager;
     }
 
-    public static Expense readTransaction(Cursor cursor){
+    public static Expense readExpense(Cursor cursor){
         Expense toret = new Expense();
         toret.setId(cursor.getInt(cursor.getColumnIndex(DBManager.EXPENSE_COLUMN_ID)));
         toret.setConcept(cursor.getString(cursor.getColumnIndex(DBManager.EXPENSE_COLUMN_CONCEPT)));
@@ -22,7 +22,7 @@ public class ExpenseFacade {private DBManager dbManager;
         return toret;
     }
 
-    public Cursor getTransactions() {
+    public Cursor getExpense() {
         Cursor toret = null;
         toret = dbManager.getReadableDatabase().rawQuery("SELECT * FROM "+DBManager.EXPENSE_TABLE_NAME, null);
         return toret;
@@ -49,7 +49,7 @@ public class ExpenseFacade {private DBManager dbManager;
         return total;
     }
 
-    public void addTransaction(Expense expense) {
+    public void addExpense(Expense expense) {
         SQLiteDatabase writableDatabase = dbManager.getWritableDatabase();
         try {
             writableDatabase.beginTransaction();
@@ -68,7 +68,7 @@ public class ExpenseFacade {private DBManager dbManager;
         }
     }
 
-    public void removeTransaction(Expense expense) {
+    public void removeExpense(Expense expense) {
         SQLiteDatabase writableDatabase = dbManager.getWritableDatabase();
         try{
             writableDatabase.beginTransaction();
@@ -84,7 +84,7 @@ public class ExpenseFacade {private DBManager dbManager;
         }
     }
 
-    public void updateTransaction(Expense expense) {
+    public void updateExpense(Expense expense) {
         SQLiteDatabase writableDatabase = dbManager.getWritableDatabase();
         try{
             writableDatabase.beginTransaction();
@@ -105,12 +105,12 @@ public class ExpenseFacade {private DBManager dbManager;
         }
     }
 
-    public Expense getTransactionById(Integer id) {
+    public Expense getExpenseById(Integer id) {
         Cursor cursor = dbManager.getReadableDatabase().rawQuery(
                 "SELECT * FROM " + DBManager.EXPENSE_TABLE_NAME
                         + " WHERE " + DBManager.EXPENSE_COLUMN_ID + " = ?",
                         new String[]{id + ""});
         cursor.moveToFirst();
-        return readTransaction(cursor);
+        return readExpense(cursor);
     }
 }
