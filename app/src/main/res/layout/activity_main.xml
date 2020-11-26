@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
+        android:layout_weight="0.9"
         android:orientation="vertical">
 
         <ListView
@@ -22,8 +22,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
+        android:layout_weight="0.1"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:text="+" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:text="Balance:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textViewBalanceTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:gravity="right"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/buttonExpense"
@@ -32,21 +58,5 @@
             android:layout_weight="0.15"
             android:text="-" />
 
-        <TextView
-            android:id="@+id/textViewBalanceTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/buttonIncome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.15"
-            android:text="+" />
     </LinearLayout>
 </LinearLayout>
