@@ -4,7 +4,7 @@ import android.app.Application;
 
 import org.uvigo.esei.dm.financialskill.db.DBManager;
 
-public class FinancialSkillApplication extends Application {
+public class FSApplication extends Application {
 
     private DBManager dbManager;
 

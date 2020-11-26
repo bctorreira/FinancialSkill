@@ -18,14 +18,15 @@ public class Expense {
     private String concept;
     private Double quantity;
     private String category;
+    private String description;
 
     public Expense() {}
 
-    public Expense(Integer id, String concept, Double quantity, String category) {
-        this.id = id;
+    public Expense(String concept, Double quantity, String category, String description) {
         this.concept = concept;
         this.quantity = quantity;
         this.category = category;
+        this.description = description;
     }
 
     public Integer getId() {
@@ -58,5 +59,13 @@ public class Expense {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

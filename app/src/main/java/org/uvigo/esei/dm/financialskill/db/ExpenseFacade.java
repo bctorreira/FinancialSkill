@@ -19,10 +19,11 @@ public class ExpenseFacade {private DBManager dbManager;
         toret.setConcept(cursor.getString(cursor.getColumnIndex(DBManager.EXPENSE_COLUMN_CONCEPT)));
         toret.setQuantity(cursor.getDouble(cursor.getColumnIndex(DBManager.EXPENSE_COLUMN_QUANTITY)));
         toret.setCategory(cursor.getString(cursor.getColumnIndex(DBManager.EXPENSE_COLUMN_CATEGORY)));
+        toret.setDescription(cursor.getString(cursor.getColumnIndex(DBManager.EXPENSE_COLUMN_DESCRIPTION)));
         return toret;
     }
 
-    public Cursor getExpense() {
+    public Cursor getExpenses() {
         Cursor toret = null;
         toret = dbManager.getReadableDatabase().rawQuery("SELECT * FROM "+DBManager.EXPENSE_TABLE_NAME, null);
         return toret;
@@ -30,7 +31,9 @@ public class ExpenseFacade {private DBManager dbManager;
 
     public double getTotalBalance() {
         double total = -0.69;
-        Cursor cursor = dbManager.getReadableDatabase().rawQuery("SELECT SUM(" + DBManager.EXPENSE_COLUMN_QUANTITY + ") as Total FROM " + DBManager.EXPENSE_TABLE_NAME, null);
+        Cursor cursor = dbManager.getReadableDatabase().rawQuery("SELECT SUM("
+                + DBManager.EXPENSE_COLUMN_QUANTITY +
+                ") as Total FROM " + DBManager.EXPENSE_TABLE_NAME, null);
         if (cursor.moveToFirst()) {
             total = cursor.getInt(cursor.getColumnIndex("Total"));// get final total
         }
@@ -57,12 +60,13 @@ public class ExpenseFacade {private DBManager dbManager;
                     "INSERT INTO " + DBManager.EXPENSE_TABLE_NAME + "(" +
                             DBManager.EXPENSE_COLUMN_CONCEPT + "," +
                             DBManager.EXPENSE_COLUMN_QUANTITY + "," +
-                            DBManager.EXPENSE_COLUMN_CATEGORY +
-                            ") VALUES (?, ?, ?)",
-                    new Object[]{expense.getConcept(), expense.getQuantity(), expense.getCategory()});
+                            DBManager.EXPENSE_COLUMN_CATEGORY + "," +
+                            DBManager.EXPENSE_COLUMN_DESCRIPTION +
+                            ") VALUES (?, ?, ?, ?)",
+                    new Object[]{expense.getConcept(), expense.getQuantity(), expense.getCategory(), expense.getDescription()});
             writableDatabase.setTransactionSuccessful();
         } catch(SQLException exception){
-            Log.e(ExpenseFacade.class.getName(), "addTransaction", exception);
+            Log.e(ExpenseFacade.class.getName(), "addExpense", exception);
         } finally {
             writableDatabase.endTransaction();
         }
@@ -78,7 +82,7 @@ public class ExpenseFacade {private DBManager dbManager;
                     new Object[]{expense.getId()});
             writableDatabase.setTransactionSuccessful();
         } catch(SQLException exception) {
-            Log.e(ExpenseFacade.class.getName(), "removeTransaction", exception);
+            Log.e(ExpenseFacade.class.getName(), "removeExpense", exception);
         } finally {
             writableDatabase.endTransaction();
         }
@@ -93,13 +97,14 @@ public class ExpenseFacade {private DBManager dbManager;
                             + " SET "
                             + DBManager.EXPENSE_COLUMN_CONCEPT + "=?, "
                             + DBManager.EXPENSE_COLUMN_QUANTITY + "=?, "
-                            + DBManager.EXPENSE_COLUMN_CATEGORY + "=? "
+                            + DBManager.EXPENSE_COLUMN_CATEGORY + "=?, "
+                            + DBManager.EXPENSE_COLUMN_DESCRIPTION + "=? "
                             + " WHERE " + DBManager.EXPENSE_COLUMN_ID +"=?",
-                    new Object[]{expense.getConcept(), expense.getQuantity(), expense.getCategory()});
+                    new Object[]{expense.getConcept(), expense.getQuantity(), expense.getCategory(), expense.getDescription()});
 
             writableDatabase.setTransactionSuccessful();
         }catch(SQLException exception){
-            Log.e(ExpenseFacade.class.getName(), "updateTransaction", exception);
+            Log.e(ExpenseFacade.class.getName(), "updateExpense", exception);
         }finally {
             writableDatabase.endTransaction();
         }
@@ -112,5 +117,19 @@ public class ExpenseFacade {private DBManager dbManager;
                         new String[]{id + ""});
         cursor.moveToFirst();
         return readExpense(cursor);
+    }
+
+    public void removeAllExpenses() {
+        SQLiteDatabase writableDatabase = dbManager.getWritableDatabase();
+        try{
+            writableDatabase.beginTransaction();
+            writableDatabase.execSQL(
+                    "DELETE FROM " + DBManager.EXPENSE_TABLE_NAME);
+            writableDatabase.setTransactionSuccessful();
+        } catch(SQLException exception) {
+            Log.e(ExpenseFacade.class.getName(), "removeExpense", exception);
+        } finally {
+            writableDatabase.endTransaction();
+        }
     }
 }

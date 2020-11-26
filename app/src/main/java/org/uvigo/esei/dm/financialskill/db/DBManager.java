@@ -17,6 +17,7 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String EXPENSE_COLUMN_CONCEPT = "concept";
     public static final String EXPENSE_COLUMN_QUANTITY = "quantity";
     public static final String EXPENSE_COLUMN_CATEGORY = "category";
+    public static final String EXPENSE_COLUMN_DESCRIPTION = "description";
 
     public DBManager(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,7 +31,8 @@ public class DBManager extends SQLiteOpenHelper {
                     EXPENSE_COLUMN_ID +" INTEGER PRIMARY KEY," +
                     EXPENSE_COLUMN_CONCEPT + " TEXT NOT NULL," +
                     EXPENSE_COLUMN_QUANTITY + " REAL NOT NULL," +
-                    EXPENSE_COLUMN_CATEGORY + " TEXT NOT NULL" +
+                    EXPENSE_COLUMN_CATEGORY + " TEXT NOT NULL," +
+                    EXPENSE_COLUMN_DESCRIPTION + " TEXT NOT NULL" + //NOT NULL, are we sure?
                     ")");
             db.setTransactionSuccessful();
         } catch (SQLException exception){
